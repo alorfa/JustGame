@@ -1,0 +1,4 @@
+// Файлы указаний помогают среде IDE Visual Studio интерпретировать идентификаторы Visual C++
+// (например, имена функций и макросов).
+// Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
+#define SOOGL_OPERATOR_IMPL(oper) template <typename type> vector2<type> operator+(vector2<type> v1, vector2<type> v2) { return vector2<type>(v1.x oper v2.x, v1.y oper v2.y); }
