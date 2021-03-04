@@ -5,9 +5,12 @@ constexpr size_t KEY_COUNT = sf::Keyboard::KeyCount;
 
 namespace sgl
 {
-	std::vector<bool> keys(KEY_COUNT);
-	std::vector<bool> press_keys(KEY_COUNT);
-	std::vector<bool> release_keys(KEY_COUNT);
+	namespace
+	{
+		std::vector<bool> keys(KEY_COUNT);
+		std::vector<bool> press_keys(KEY_COUNT);
+		std::vector<bool> release_keys(KEY_COUNT);
+	}
 
 	void Keyboard::update()
 	{

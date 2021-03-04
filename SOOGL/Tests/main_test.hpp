@@ -15,7 +15,6 @@
 #include "SOOGL/System/User/Keyboard.hpp"
 #include "SOOGL/System/User/Mouse.hpp"
 #include "SOOGL/Other/print_primitives.hpp"
-#include "SOOGL/System/Time/FpsManager.hpp"
 #include <Windows.h>
 #include "GLFW/glfw3.h"
 #include <SFML/Graphics.hpp>
@@ -71,6 +70,11 @@ namespace tests
 					color.change({ 0.3f, 0.3f, 0.6f, 1.f }, 0.3);
 				if (sgl::Keyboard::justReleased(sgl::Key::Left))
 					color.change({ 0.5f, 0.3f, 0.3f, 1.f }, 0.3);
+
+				if (sgl::Mouse::justPressed(sgl::Button::Left))
+					color.change({ 0.f, 0.f, 0.f, 1.f });
+				if (sgl::Mouse::justReleased(sgl::Button::Left))
+					color.change({ 0.4f, 0.6f, 1.f, 1.f });
 			}
 			color.update(d_delta);
 

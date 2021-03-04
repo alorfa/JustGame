@@ -3,17 +3,21 @@
 #include <SFML/Window/Event.hpp>
 #include "SOOGL/RenderTarget/Window.hpp"
 #include "SOOGL/System/User/Keyboard.hpp"
+#include "SOOGL/System/User/Mouse.hpp"
 
 namespace sgl
 {
-	sf::Window* window;
-	sf::Event* event;
+	namespace
+	{
+		sf::Window* window;
+		sf::Event* event;
 
-	int windows_count = 0;
-	uvec2 lim_min, lim_max;
-	size_limit size_lim;
-	std::string wnd_title;
-	uint frame_limit = 0;
+		int windows_count = 0;
+		uvec2 lim_min, lim_max;
+		size_limit size_lim;
+		std::string wnd_title;
+		uint frame_limit = 0;
+	}
 
 	Window::Window()
 	{
@@ -122,6 +126,7 @@ namespace sgl
 	void Window::update()
 	{
 		Keyboard::update();
+		Mouse::update();
 
 		window->pollEvent(*event);
 		window->display();
