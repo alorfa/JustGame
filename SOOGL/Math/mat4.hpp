@@ -2,8 +2,6 @@
 
 namespace sgl
 {
-namespace mat
-{
 	struct mat4
 	{
 	public:
@@ -33,6 +31,13 @@ namespace mat
 		static void multiply(const mat4& m1, const mat4& m2, mat4& output);
 	};
 	using mat4x4 = mat4;
-}
-using namespace mat;
+
+	namespace mat
+	{
+		using namespace sgl;
+	}
+	namespace primitives
+	{
+		using namespace sgl;
+	}
 }

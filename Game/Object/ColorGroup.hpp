@@ -1,14 +1,14 @@
 #pragma once
 
 #include <vector>
-#include "SOOGL/Graphics/color.hpp"
+#include "Color.hpp"
 
 namespace gd
 {
 	class ColorGroup
 	{
-		std::vector<sgl::color4f*> colors;
+		std::vector<Color*> colors;
 	public:
-
+		
 	};
 }

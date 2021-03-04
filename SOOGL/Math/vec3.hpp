@@ -4,8 +4,6 @@
 
 namespace sgl
 {
-namespace vec
-{
 	template <typename T>
 	struct vec3
 	{
@@ -63,6 +61,13 @@ namespace vec
 	using sbvec3 = vec3<types::sbyte>;
 
 	using vec3_size = vec3<size_t>;
-}
-using namespace vec;
+
+	namespace vec
+	{
+		using namespace sgl;
+	}
+	namespace primitives
+	{
+		using namespace sgl;
+	}
 }

@@ -4,8 +4,6 @@
 
 namespace sgl
 {
-namespace vec
-{
 	template <typename type>
 	struct vec4
 	{
@@ -65,5 +63,13 @@ namespace vec
 
 	using ubvec4 = vec4<types::ubyte>;
 	using sbvec4 = vec4<types::sbyte>;
-}
+
+	namespace vec
+	{
+		using namespace sgl;
+	}
+	namespace primitives
+	{
+		using namespace sgl;
+	}
 }

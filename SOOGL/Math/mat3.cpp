@@ -1,7 +1,7 @@
 #include "SOOGL/Math/mat3.hpp"
 #include <iostream>
 
-namespace sgl::mat
+namespace sgl
 {
 	mat3::mat3(const float* mat) noexcept
 	{

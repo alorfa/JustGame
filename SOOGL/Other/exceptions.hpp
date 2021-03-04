@@ -5,8 +5,6 @@
 
 namespace sgl
 {
-namespace exceptions
-{
 	class soogl_exception : public std::exception {};
 
 	class init_error : public soogl_exception {};
@@ -57,6 +55,13 @@ namespace exceptions
 			return err;
 		}
 	};
-}
-using namespace exceptions;
+
+	namespace exceptions
+	{
+		using namespace sgl;
+	}
+	namespace primitives
+	{
+		using namespace sgl;
+	}
 }

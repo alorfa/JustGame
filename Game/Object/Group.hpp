@@ -1,13 +1,13 @@
 #pragma once
 
 #include <vector>
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "Object.hpp"
 
 namespace gd
 {
 	class Group
 	{
-		std::vector<sgl::Transform2D*> groups;
+		std::vector<Object*> objects;
 	public:
 
 	};

@@ -1,10 +1,9 @@
 #pragma once
 
 #include "SOOGL/Math/vec3.hpp"
+#include "SOOGL/Math/vec4.hpp"
 
 namespace sgl
-{
-namespace color
 {
 	struct color3f
 	{
@@ -13,12 +12,14 @@ namespace color
 		inline color3f(float r = 0.f, float g = 0.f, float b = 0.f)
 			: r(r), g(g), b(b) {}
 
-		inline vec::fvec3& asVec3() {
-			return *(vec::fvec3*)this;
+		inline fvec3& asVec3() {
+			return *(fvec3*)this;
 		}
-		inline const vec::fvec3& asVec3() const {
-			return *(vec::fvec3*)this;
+		inline const fvec3& asVec3() const {
+			return *(fvec3*)this;
 		}
+		inline operator fvec3& () { return asVec3(); }
+		inline operator const fvec3& () const { return asVec3(); }
 	};
 
 	struct color3b
@@ -54,6 +55,14 @@ namespace color
 			b = other.b;
 			a = 1.f;
 		}
+		inline fvec4& asVec4() {
+			return *(fvec4*)this;
+		}
+		inline const fvec4& asVec4() const {
+			return *(fvec4*)this;
+		}
+		inline operator fvec4& () { return asVec4(); }
+		inline operator const fvec4& () const { return asVec4(); }
 	};
 
 	struct color4b
@@ -72,6 +81,13 @@ namespace color
 			a = 255;
 		}
 	};
-}
-using namespace color;
+
+	namespace color
+	{
+		using namespace sgl;
+	}
+	namespace primitives
+	{
+		using namespace sgl;
+	}
 }

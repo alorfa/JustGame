@@ -1,5 +1,5 @@
 #include "FpsManager.hpp"
-#include "SOOGL/System/Time.hpp"
+#include "SOOGL/System/Time/Time.hpp"
 
 namespace sgl
 {
