@@ -1,23 +1,31 @@
 #include "SOOGL/Other/opengl.h"
-#include "GLFW/glfw3.h"
+#include <SFML/Window/Window.hpp>
+#include <SFML/Window/Event.hpp>
 #include "SOOGL/RenderTarget/Window.hpp"
 #include "SOOGL/System/User/Keyboard.hpp"
 
 namespace sgl
 {
-	GLFWwindow* window = nullptr;
+	sf::Window* window;
+	sf::Event* event;
 
-	bool window_is_resized = false;
 	int windows_count = 0;
 	uvec2 lim_min, lim_max;
 	size_limit size_lim;
 	std::string wnd_title;
+	uint frame_limit = 0;
 
+	Window::Window()
+	{
+		if (not window)
+		{
+			window = new sf::Window;
+			event = new sf::Event;
+		}
+	}
 	Window::~Window()
 	{
 		destroy();
-
-		glfwTerminate();
 	}
 	bool Window::create(const uvec2& size, const std::string& title)
 	{
@@ -26,37 +34,25 @@ namespace sgl
 		if (windows_count > 0)
 			return false;
 
-		if (not glfwInit())
-			return false;
-
-		window = glfwCreateWindow(int(size.x), int(size.y), title.c_str(), nullptr, nullptr);
-		// glGetError(); // 
-		if (not window)
-			return false;
-
-		glfwMakeContextCurrent(window);
+		window->create(sf::VideoMode(size.x, size.y), title, sf::Style::Default);
+		glViewport(0, 0, (int)size.x, (int)size.y);
 
 		glewExperimental = true;
-		if (glewInit() != GLEW_OK)
+		if (glewInit() != GLEW_OK) {
+			window->close();
 			return false;
-
-		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-			{
-				glViewport(0, 0, width, height);
-				window_is_resized = true;
-			});
+		}
 
 		windows_count++;
 		return true;
 	}
 	void Window::destroy()
 	{
-		if (window)
+		if (window->isOpen())
 		{
-			glfwDestroyWindow(window);
+			window->close();
 			windows_count--;
 		}
-		window = nullptr;
 	}
 	void Window::close()
 	{
@@ -64,68 +60,22 @@ namespace sgl
 	}
 	uvec2 Window::size() const
 	{
-		uvec2 output;
-		ivec2 cur_size;
-
-		glfwGetWindowSize(window, &cur_size.x, &cur_size.y);
-
-		output.x = cur_size.x;
-		output.y = cur_size.y;
-
-		return output;
+		auto out = window->getSize();
+		return uvec2(out.x, out.y);
 	}
 	uvec2 Window::size(const uvec2& size)
 	{
-		glfwSetWindowSize(window, (int)size.x, (int)size.y);
+		window->setSize({ size.x, size.y });
 		return size;
 	}
-
-	const size_limit& Window::sizeLimit() const
-	{
-		return size_lim;
-	}
-	const size_limit& Window::sizeLimit(const uvec2& min, const uvec2& max)
-	{
-		size_lim.min = min;
-		size_lim.max = max;
-
-		int values[4];
-		values[0] = (int)min.x;
-		values[1] = (int)min.y;
-		values[2] = (int)max.x;
-		values[3] = (int)max.y;
-		for (int& v : values)
-			if (v == 0) v = GLFW_DONT_CARE;
-
-		glfwSetWindowSizeLimits(window, values[0], values[1], values[2], values[3]);
-		return sizeLimit();
-	}	
-
-	uvec2 Window::aspectRatio() const
-	{
-		return { 0, 0 };
-	}
-	uvec2 Window::aspectRatio(const uvec2& ratio)
-	{
-		ivec2 rat(ratio.x, ratio.y);
-		if (rat.x == 0)
-			rat.x = GLFW_DONT_CARE;
-		if (rat.y == 0)
-			rat.y = GLFW_DONT_CARE;
-
-		glfwSetWindowAspectRatio(window, rat.x, rat.y);
-		return ratio;
-	}
-
 	uvec2 Window::position() const
 	{
-		ivec2 output;
-		glfwGetWindowPos(window, &output.x, &output.y);
+		auto output = window->getPosition();
 		return { (uint)output.x, (uint)output.y };
 	}
 	uvec2 Window::position(const uvec2& new_pos)
 	{
-		glfwSetWindowPos(window, new_pos.x, new_pos.y);
+		window->setPosition({ (int)new_pos.x, (int)new_pos.y });
 		return new_pos;
 	}
 
@@ -137,35 +87,50 @@ namespace sgl
 	const std::string& Window::title(const std::string& utf8string)
 	{
 		wnd_title = utf8string;
-		glfwSetWindowTitle(window, utf8string.c_str());
+		window->setTitle(utf8string);
 		return wnd_title;
+	}
+	
+	uint Window::frameLinit() const
+	{
+		return frame_limit;
+	}
+	uint Window::frameLinit(uint limit)
+	{
+		frame_limit = limit;
+		window->setFramerateLimit(limit);
+		return limit;
 	}
 
 	bool Window::isResized() const
 	{
-		return window_is_resized;
+		return event->type == event->Resized;
 	}
 
 	bool Window::isOpen() const
 	{
-		return (bool)window;
+		return window->isOpen();
 	}
 	bool Window::isFocused() const
 	{
-		return glfwGetWindowAttrib(window, GLFW_FOCUSED);
+		return window->hasFocus();
 	}
 	bool Window::shouldClose() const
 	{
-		return glfwWindowShouldClose(window);
+		return event->type == event->Closed;
 	}
 	void Window::update()
 	{
 		Keyboard::update();
 
-		window_is_resized = false;
+		window->pollEvent(*event);
+		window->display();
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		if (isResized())
+		{
+			auto size = this->size();
+			glViewport(0, 0, (int)size.x, (int)size.y);
+		}
 
 		if (will_be_closed)
 			destroy();

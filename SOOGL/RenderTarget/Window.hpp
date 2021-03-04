@@ -17,7 +17,7 @@ namespace sgl
 	{
 		bool will_be_closed = false;
 	public:
-		inline Window() = default;
+		Window();
 		Window(const Window&) = delete;
 		Window(Window&&) = delete;
 		Window& operator=(const Window&) = delete;
@@ -31,17 +31,14 @@ namespace sgl
 		uvec2 size() const;
 		uvec2 size(const uvec2& size);
 
-		const size_limit& sizeLimit() const;
-		const size_limit& sizeLimit(const uvec2& min, const uvec2& max);
-
-		uvec2 aspectRatio() const;
-		uvec2 aspectRatio(const uvec2& ratio);
-
 		uvec2 position() const;
 		uvec2 position(const uvec2& new_pos);
 
 		const std::string& title() const;
 		const std::string& title(const std::string& utf8string);
+
+		uint frameLinit() const; 
+		uint frameLinit(uint limit); 
 
 		bool isResized() const;
 		bool isOpen() const;
