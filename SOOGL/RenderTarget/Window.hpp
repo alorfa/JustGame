@@ -3,6 +3,7 @@
 #include "SOOGL/Math/vec2.hpp"
 #include "SOOGL/RenderTarget/RenderTarget.hpp"
 #include <string>
+#include "SOOGL/Math/rect_area.hpp"
 
 namespace sgl
 {
@@ -29,16 +30,21 @@ namespace sgl
 		void close();
 
 		uvec2 size() const;
-		uvec2 size(const uvec2& size);
+		uvec2 size(const uvec2& size); 
 
-		uvec2 position() const;
-		uvec2 position(const uvec2& new_pos);
+		ivec2 position() const;
+		ivec2 position(const ivec2& new_pos);
+
+		rect_area<int> area() const;
 
 		const std::string& title() const;
 		const std::string& title(const std::string& utf8string);
 
 		uint frameLinit() const; 
 		uint frameLinit(uint limit); 
+
+		bool verticalSync() const;
+		bool verticalSync(bool enable);
 
 		bool isResized() const;
 		bool isOpen() const;

@@ -3,6 +3,10 @@
 
 namespace sgl
 {
+	namespace wnd
+	{
+		extern sf::Window* window;
+	}
 	namespace
 	{
 		constexpr size_t BUTTON_COUNT = sf::Mouse::ButtonCount;
@@ -43,12 +47,24 @@ namespace sgl
 	ivec2 Mouse::position()
 	{
 		auto output = sf::Mouse::getPosition();
-		return ivec2(output.x, output.y);
+		return { output.x, output.y };
 	}
 	ivec2 Mouse::position(const ivec2& new_pos)
 	{
 		sf::Mouse::setPosition({ new_pos.x, new_pos.y });
 		return position();
+	}
+
+	ivec2 Mouse::position(const Window& relativeTo)
+	{
+		auto out = sf::Mouse::getPosition(*wnd::window);
+		return { out.x, out.y };
+	}
+
+	ivec2 Mouse::position(const ivec2& new_pos, const Window& relativeTo)
+	{
+		sf::Mouse::setPosition({ new_pos.x, new_pos.y }, *wnd::window);
+		return new_pos;
 	}
 
 	bool Mouse::justPressed(Button button)

@@ -7,7 +7,7 @@
 
 namespace sgl
 {
-	namespace
+	namespace wnd
 	{
 		sf::Window* window;
 		sf::Event* event;
@@ -17,7 +17,9 @@ namespace sgl
 		size_limit size_lim;
 		std::string wnd_title;
 		uint frame_limit = 0;
+		bool vertical_sync = true;
 	}
+	using namespace wnd;
 
 	Window::Window()
 	{
@@ -72,15 +74,22 @@ namespace sgl
 		window->setSize({ size.x, size.y });
 		return size;
 	}
-	uvec2 Window::position() const
+	ivec2 Window::position() const
 	{
 		auto output = window->getPosition();
-		return { (uint)output.x, (uint)output.y };
+		return { output.x, output.y };
 	}
-	uvec2 Window::position(const uvec2& new_pos)
+	ivec2 Window::position(const ivec2& new_pos)
 	{
-		window->setPosition({ (int)new_pos.x, (int)new_pos.y });
+		window->setPosition({ new_pos.x, new_pos.y });
 		return new_pos;
+	}
+
+	rect_area<int> Window::area() const
+	{
+		auto left_top = position();
+		return rect_area<int>(
+			left_top, left_top + ivec2(size().x, size().y));
 	}
 
 	const std::string& Window::title() const
@@ -104,6 +113,17 @@ namespace sgl
 		frame_limit = limit;
 		window->setFramerateLimit(limit);
 		return limit;
+	}
+
+	bool Window::verticalSync() const
+	{
+		return vertical_sync;
+	}
+
+	bool Window::verticalSync(bool enable)
+	{
+		window->setVerticalSyncEnabled(enable);
+		return enable;
 	}
 
 	bool Window::isResized() const

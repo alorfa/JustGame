@@ -59,10 +59,12 @@ namespace tests
 			d_delta = clock.update();
 			delta = float(delta);
 
-			window.clear(color3f{ 0.f, 0.f, 0.f });
+			window.clear(color3f{ 0.5f, 0.5f, 0.5f });
 
 			if (window.shouldClose())
 				window.close();
+
+			//PRINTR(sgl::in_area(sgl::Mouse::position(), window.area()));
 
 			if (window.isFocused())
 			{
@@ -72,9 +74,9 @@ namespace tests
 					color.change({ 0.5f, 0.3f, 0.3f, 1.f }, 0.3);
 
 				if (sgl::Mouse::justPressed(sgl::Button::Left))
-					color.change({ 0.f, 0.f, 0.f, 1.f });
+					color.change({ 0.4f, 0.6f, 1.f, 0.1f }, 0.3);
 				if (sgl::Mouse::justReleased(sgl::Button::Left))
-					color.change({ 0.4f, 0.6f, 1.f, 1.f });
+					color.change({ 0.0f, 0.0f, 0.f, 1.f }, 0.3);
 			}
 			color.update(d_delta);
 
@@ -84,6 +86,7 @@ namespace tests
 
 			shader->setUniform(shader->location("transform"), camera.matrix());
 			shader->setUniform(shader->location("color"), color.color());
+			//PRINTR((fvec4)color.color());
 			shader->activate();
 
 			vbuf.activate(0);
