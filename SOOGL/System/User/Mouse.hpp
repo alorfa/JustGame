@@ -36,6 +36,8 @@ namespace sgl
 		*/
 		static ivec2 position(const ivec2& new_pos, const Window& relativeTo);
 
+		static bool onWindow(const Window& window);
+
 		static bool justPressed(Button button);
 		static bool justReleased(Button button);
 

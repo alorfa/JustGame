@@ -64,7 +64,7 @@ namespace tests
 			if (window.shouldClose())
 				window.close();
 
-			//PRINTR(sgl::in_area(sgl::Mouse::position(), window.area()));
+			PRINTR(sgl::Mouse::onWindow(window));
 
 			if (window.isFocused())
 			{
@@ -73,10 +73,13 @@ namespace tests
 				if (sgl::Keyboard::justReleased(sgl::Key::Left))
 					color.change({ 0.5f, 0.3f, 0.3f, 1.f }, 0.3);
 
-				if (sgl::Mouse::justPressed(sgl::Button::Left))
-					color.change({ 0.4f, 0.6f, 1.f, 0.1f }, 0.3);
-				if (sgl::Mouse::justReleased(sgl::Button::Left))
-					color.change({ 0.0f, 0.0f, 0.f, 1.f }, 0.3);
+				if (sgl::Mouse::onWindow(window))
+				{
+					if (sgl::Mouse::justPressed(sgl::Button::Left))
+						color.change({ 0.4f, 0.6f, 1.f, 0.1f }, 0.3);
+					if (sgl::Mouse::justReleased(sgl::Button::Left))
+						color.change({ 0.0f, 0.0f, 0.f, 1.f }, 0.3);
+				}
 			}
 			color.update(d_delta);
 

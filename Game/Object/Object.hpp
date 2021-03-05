@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
 #include "SOOGL/Graphics/Transform/Camera2D.hpp"
 #include "Color.hpp"

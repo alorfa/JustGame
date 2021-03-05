@@ -1,13 +1,10 @@
 #pragma once
 
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Math/vec2.hpp"
 
 namespace sgl
 {
-	using namespace mat;
-	using namespace vec;
-
 	class Camera2D : public Transformable2D
 	{
 	public:

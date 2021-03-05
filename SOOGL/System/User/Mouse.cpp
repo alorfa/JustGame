@@ -67,6 +67,14 @@ namespace sgl
 		return new_pos;
 	}
 
+	bool Mouse::onWindow(const Window& window)
+	{
+		auto pos = position(window);
+		if (pos.x >= 0 && pos.y >= 0)
+			return (pos.x < 800 && pos.y < 800);
+		return false;
+	}
+
 	bool Mouse::justPressed(Button button)
 	{
 		return press_keys[button];

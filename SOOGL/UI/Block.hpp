@@ -1,13 +1,11 @@
 #pragma once
 
 #include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Math/vec2.hpp"
 
 namespace sgl
 {
-	using namespace vec;
-
 	class Block : public Transformable2D
 	{
 		struct RoundedCorner

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Graphics/Text/Font.hpp"
 #include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
 #include "SOOGL/System/string.hpp"

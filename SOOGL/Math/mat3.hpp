@@ -4,6 +4,8 @@
 
 namespace sgl
 {
+	struct Transform2D;
+
 	struct mat3
 	{
 	public:
@@ -32,6 +34,9 @@ namespace sgl
 		static const mat3 identity;
 		static void multiply(const mat3& m1, const mat3& m2, mat3& output);
 		static void multiply(const mat3& m, const vec::fvec3 v, vec::fvec3& output);
+
+		static void createTransformMatrix(const Transform2D& transform, mat3& output);
+		static void createCameraMatrix(const Transform2D& transform, mat3& output);
 	};
 	using mat3x3 = mat3;
 

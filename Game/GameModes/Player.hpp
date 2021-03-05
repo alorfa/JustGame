@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 
 namespace gd
 {

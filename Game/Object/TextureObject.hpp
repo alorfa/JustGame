@@ -6,13 +6,13 @@
 
 namespace gd
 {
-	class BitmapObject : public Object
+	class TextureObject : public Object
 	{
 		const sgl::Texture* texture = nullptr;
 		sgl::VertexBuffer2f vbuf;
 		sgl::UVBuffer ubuf;
 	public:
-		BitmapObject();
-		~BitmapObject();
+		TextureObject();
+		~TextureObject();
 	};
 }

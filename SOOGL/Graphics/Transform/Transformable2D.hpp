@@ -5,10 +5,6 @@
 
 namespace sgl
 {
-	using namespace mat;
-	using namespace vec;
-	using namespace types;
-
 	struct Transform2D
 	{
 		fvec2 position;
@@ -29,10 +25,10 @@ namespace sgl
 		Transformable2D() = default;
 		virtual ~Transformable2D() = default;
 
-		inline const Transform2D& transform() {
+		inline const Transform2D& transform() const {
 			return t;
 		}
-
+		
 		inline const fvec2& position() const {
 			return t.position;
 		}
@@ -45,13 +41,14 @@ namespace sgl
 
 		const fvec2& position(float new_x, float new_y);
 		const fvec2& position(const fvec2& new_pos);
-		float rotation(float rotation);
-		const fvec2& scope(float new_x, float new_y);
-		const fvec2& scope(const fvec2& new_scale);
-
 		const fvec2& move(float offset_x, float offset_y);
 		const fvec2& move(const fvec2& offset);
+
+		float rotation(float rotation);
 		float rotate(float rot);
+
+		const fvec2& scope(float new_x, float new_y);
+		const fvec2& scope(const fvec2& new_scale);
 		const fvec2& zoom(float offset_x, float offset_y);
 		const fvec2& zoom(const fvec2& scale);
 		const fvec2& zoom(float offset);

@@ -1,4 +1,4 @@
-#include "Transform2D.hpp"
+#include "Transformable2D.hpp"
 #include "SOOGL/Math/trig.hpp"
 #include <cmath>
 
@@ -69,21 +69,9 @@ namespace sgl
 	{
 		if (need_update)
 		{
-			float cosine = std::cosf(t.rotation);
-			float sine = std::sinf(t.rotation);
-			float scalxc = t.scale.x * cosine;
-			float scalyc = t.scale.y * cosine;
-			float scalxs = t.scale.x * sine;
-			float scalys = t.scale.y * sine;
-			float tx = t.position.x;
-			float ty = t.position.y;
-
-			m_matrix.set(
-				scalxc,		-scalxs,	0.f,
-				scalys,		scalyc,		0.f,
-				tx,			ty,			1.f);
+			mat3::createTransformMatrix(t, m_matrix);
+			need_update = false;
 		}
-		need_update = false;
 
 		return m_matrix;
 	}

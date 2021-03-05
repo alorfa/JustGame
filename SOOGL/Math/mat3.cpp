@@ -1,5 +1,6 @@
 #include "SOOGL/Math/mat3.hpp"
 #include <iostream>
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 
 namespace sgl
 {
@@ -83,5 +84,37 @@ namespace sgl
 		output.x = m[0] * v.x + m[3] * v.y + m[6] * v.z;
 		output.y = m[1] * v.x + m[4] * v.y + m[7] * v.z;
 		output.z = m[2] * v.x + m[5] * v.y + m[8] * v.z;
+	}
+	void mat3::createTransformMatrix(const Transform2D& t, mat3& output)
+	{
+		float cosine = std::cosf(t.rotation);
+		float sine = std::sinf(t.rotation);
+		float scalxc = t.scale.x * cosine;
+		float scalyc = t.scale.y * cosine;
+		float scalxs = t.scale.x * sine;
+		float scalys = t.scale.y * sine;
+		float tx = t.position.x;
+		float ty = t.position.y;
+
+		output.set(
+			scalxc, -scalxs, 0.f,
+			scalys, scalyc, 0.f,
+			tx, ty, 1.f);
+	}
+	void mat3::createCameraMatrix(const Transform2D& t, mat3& output)
+	{
+		// Projection components
+		float a = 2.f / t.scale.x;
+		float b = 2.f / t.scale.y;
+
+		float cosine = std::cosf(t.rotation);
+		float sine = std::sinf(t.rotation);
+		float tx = t.position.x;
+		float ty = t.position.y;
+
+		output.set(
+			a * cosine, -b * sine,	0.f,
+			a * sine,	b * cosine, 0.f,
+			-a * tx,	-b * ty,	1.f);
 	}
 }

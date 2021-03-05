@@ -7,21 +7,9 @@ namespace sgl
 	{
 		if (need_update)
 		{
-			// Projection components
-			float a = 2.f / t.scale.x;
-			float b = 2.f / t.scale.y;
-
-			float cosine = std::cosf(t.rotation);
-			float sine = std::sinf(t.rotation);
-			float tx = t.position.x;
-			float ty = t.position.y;
-
-			m_matrix.set(
-				a * cosine,		-b * sine,		0.f,
-				a * sine,		b * cosine,		0.f,
-				-a * tx,		-b * ty,		1.f);
+			mat3::createCameraMatrix(t, m_matrix);
+			need_update = false;
 		}
-		need_update = false;
 
 		return m_matrix;
 	}
