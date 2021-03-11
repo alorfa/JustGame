@@ -64,10 +64,21 @@ namespace sgl
 
 	namespace vec
 	{
-		using namespace sgl;
+		using sgl::vec3;
+		using sgl::fvec3;
+		using sgl::dvec3;
+
+		using sgl::ivec3;
+		using sgl::uivec3;
+		using sgl::uvec3;
+
+		using sgl::ubvec3;
+		using sgl::sbvec3;
+
+		using sgl::vec3_size;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace vec;
 	}
 }

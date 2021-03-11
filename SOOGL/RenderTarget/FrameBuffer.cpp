@@ -35,6 +35,15 @@ namespace sgl
 		bind(type, id); 
 		glFramebufferTexture2D(toOglType(type), GL_COLOR_ATTACHMENT0, 
 			GL_TEXTURE_2D, texture.nativeHandle(), 0);
+
+		bind(type, 0);
+	}
+	void FrameBuffer::activate() const
+	{
+		bind(type, id);
+	}
+	void FrameBuffer::deactivate() const
+	{
 		bind(type, 0);
 	}
 	bool FrameBuffer::isValid()

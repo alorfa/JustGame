@@ -18,6 +18,7 @@
 #include <Windows.h>
 #include "GLFW/glfw3.h"
 #include <SFML/Graphics.hpp>
+#include "SOOGL/RenderTarget/FrameBuffer.hpp"
 
 namespace tests
 {
@@ -29,7 +30,7 @@ namespace tests
 
 		sgl::Blend::activate(sgl::Blend::Default);
 
-		Clock clock;
+		sgl::Clock clock;
 
 		sgl::Window window;
 		if (not window.create({ 800, 800 }, "Title"))
@@ -53,6 +54,8 @@ namespace tests
 
 		gd::Color color;
 		color.change({ 0.8f, 0.1f, 0.5f, 1.f });
+
+		//FrameBuffer frame_buffer;
 
 		while (window.isOpen())
 		{
@@ -83,7 +86,7 @@ namespace tests
 			}
 			color.update(d_delta);
 
-			const sgl::Shader* shader = sgl::Shader::get(sgl::Vert2b | sgl::Col4u);
+			const sgl::Shader* shader = sgl::Shader::get(sgl::Vert2b | sgl::UVb);
 			if (not shader)
 				continue;
 

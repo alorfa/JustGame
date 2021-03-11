@@ -26,6 +26,8 @@ namespace sgl
 		~FrameBuffer();
 
 		void create(uvec2 size, Type type);
+		void activate() const;
+		void deactivate() const;
 
 		static bool isValid();
 

@@ -58,10 +58,15 @@ namespace sgl
 
 	namespace exceptions
 	{
-		using namespace sgl;
+		using sgl::soogl_exception;
+		using sgl::file_error;
+		using sgl::font_error;
+		using sgl::init_error;
+		using sgl::shader_error;
+		using sgl::image_error;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace exceptions;
 	}
 }

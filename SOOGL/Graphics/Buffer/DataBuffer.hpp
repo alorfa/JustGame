@@ -38,6 +38,13 @@ namespace sgl
 		DataBuffer()
 			: data_size_in_ogl(0) {}
 
+		DataBuffer(const std::vector<T>& data) {
+			changeData() = data;
+		}
+		DataBuffer(std::vector<T>&& data) {
+			changeData() = std::move(data);
+		}
+
 		void activate(uint attribute, LoadMode mode = LoadMode::Static) const
 		{
 			if (this->need_to_update)
@@ -73,6 +80,18 @@ namespace sgl
 	using ColorBuffer3f = DataBuffer<color3f, 3, GL_FLOAT>;
 	using ColorBuffer4f = DataBuffer<color4f, 4, GL_FLOAT>;
 	using UVBuffer = DataBuffer<fvec2, 2, GL_FLOAT>;
+	const UVBuffer default_quad_UVs({
+		{0.f, 0.f},
+		{0.f, 1.f},
+		{1.f, 1.f},
+		{1.f, 0.f}
+	});
+	const UVBuffer default_rev_quad_UVs({
+		{0.f, 1.f},
+		{0.f, 0.f},
+		{1.f, 0.f},
+		{1.f, 1.f}
+	});
 
 	namespace buffer
 	{

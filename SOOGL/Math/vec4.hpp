@@ -66,10 +66,19 @@ namespace sgl
 
 	namespace vec
 	{
-		using namespace sgl;
+		using sgl::vec4;
+		using sgl::fvec4;
+		using sgl::dvec4;
+
+		using sgl::ivec4;
+		using sgl::uivec4;
+		using sgl::uvec4;
+
+		using sgl::ubvec4;
+		using sgl::sbvec4;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace vec;
 	}
 }

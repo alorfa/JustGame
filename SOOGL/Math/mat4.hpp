@@ -34,10 +34,11 @@ namespace sgl
 
 	namespace mat
 	{
-		using namespace sgl;
+		using sgl::mat4;
+		using sgl::mat4x4;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace mat;
 	}
 }

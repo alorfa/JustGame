@@ -20,10 +20,24 @@ namespace sgl
 
 	namespace types
 	{
-		using namespace sgl;
+		using sgl::int8;
+		using sgl::int16;
+		using sgl::int32;
+		using sgl::int64;
+
+		using sgl::uint8;
+		using sgl::uint16;
+		using sgl::uint32;
+		using sgl::uint64;
+
+		using sgl::uint;
+		using sgl::ulong;
+
+		using sgl::sbyte;
+		using sgl::ubyte;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace types;
 	}
 }

@@ -84,10 +84,13 @@ namespace sgl
 
 	namespace color
 	{
-		using namespace sgl;
+		using sgl::color3b;
+		using sgl::color4b;
+		using sgl::color3f;
+		using sgl::color4f;
 	}
 	namespace primitives
 	{
-		using namespace sgl;
+		using namespace color;
 	}
 }
