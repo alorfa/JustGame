@@ -17,7 +17,7 @@ namespace sgl
 			Draw
 		};
 	private:
-		uint m_id;
+		uint id;
 		Type type;
 		Texture texture;
 	public:
@@ -29,8 +29,8 @@ namespace sgl
 
 		static bool isValid();
 
-		inline uint id() const {
-			return m_id;
+		inline uint nativeHandle() const {
+			return id;
 		}
 	};
 }

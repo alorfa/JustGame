@@ -44,7 +44,7 @@ namespace sgl
 				this->updateData(mode);
 
 			glEnableVertexAttribArray(attribute);
-			glBindBuffer(BUFFER_TYPE, buf.id());
+			glBindBuffer(BUFFER_TYPE, buf.nativeHandle());
 			glVertexAttribPointer(attribute, COMPONENTS_COUNT, DATA_TYPE, GL_FALSE, 0, nullptr);
 		}
 		void deactivate(uint attribute) const

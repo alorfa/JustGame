@@ -9,16 +9,16 @@ namespace sgl
 	class Buffer
 	{
 	private:
-		GLuint m_id;
+		GLuint id;
 		std::vector<T> m_data;
 
 		void create() {
-			if (not m_id)
-				glCreateBuffers(1, &m_id);
+			if (not id)
+				glCreateBuffers(1, &id);
 		}
 		void destroy() {
-			if (m_id)
-				glDeleteBuffers(1, &m_id);
+			if (id)
+				glDeleteBuffers(1, &id);
 		}
 	public:
 		Buffer() {
@@ -41,18 +41,18 @@ namespace sgl
 		Buffer(Buffer&& other)
 			: m_data(std::move(other.m_data))
 		{
-			m_id = other.m_id;
-			other.m_id = 0;
+			id = other.id;
+			other.id = 0;
 		}
 		Buffer& operator=(Buffer&& other)
 		{
 			m_data = std::move(other.m_data);
-			m_id = other.m_id;
-			other.m_id = 0;
+			id = other.id;
+			other.id = 0;
 			return *this;
 		}
-		GLuint id() const {
-			return m_id;
+		GLuint nativeHandle() const {
+			return id;
 		}
 		std::vector<T>& data() { 
 			return m_data; 
@@ -62,7 +62,7 @@ namespace sgl
 		}
 		void loadToOGL(GLenum BUFFER_TYPE, size_t SIZE, GLenum MODE) const
 		{
-			glBindBuffer(BUFFER_TYPE, this->m_id);
+			glBindBuffer(BUFFER_TYPE, this->id);
 			glBufferData(BUFFER_TYPE, SIZE * sizeof(T), &this->m_data[0], MODE);
 		}
 	};

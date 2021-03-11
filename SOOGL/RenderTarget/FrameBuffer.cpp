@@ -22,18 +22,19 @@ namespace sgl
 	FrameBuffer::FrameBuffer()
 		: type(FrameBuffer::Nothing)
 	{
-		glGenFramebuffers(1, &m_id);
+		glGenFramebuffers(1, &id);
 	}
 	FrameBuffer::~FrameBuffer()
 	{
-		glDeleteFramebuffers(1, &m_id);
+		glDeleteFramebuffers(1, &id);
 	}
 	void FrameBuffer::create(uvec2 size, Type type)
 	{
 		this->type = type;
 		texture.create(size, Image::RGB, Image::RGB, nullptr, Texture::Smooth); 
-		bind(type, m_id); 
-		glFramebufferTexture2D(toOglType(type), GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id(), 0);
+		bind(type, id); 
+		glFramebufferTexture2D(toOglType(type), GL_COLOR_ATTACHMENT0, 
+			GL_TEXTURE_2D, texture.nativeHandle(), 0);
 		bind(type, 0);
 	}
 	bool FrameBuffer::isValid()
