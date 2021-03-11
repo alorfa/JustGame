@@ -34,17 +34,17 @@ namespace sgl
 
 	void Texture::createTexture()
 	{
-		if (id == 0)
-			glGenTextures(1, &id);
+		if (m_id == 0)
+			glGenTextures(1, &m_id);
 	}
 	void Texture::deleteTexture()
 	{
-		if (id)
-			glDeleteTextures(1, &id);
+		if (m_id)
+			glDeleteTextures(1, &m_id);
 	}
 
 	Texture::Texture()
-		: m_size(), id(0) {}
+		: m_size(), m_id(0) {}
 
 	Texture::Texture(Texture&& other) noexcept
 	{
@@ -55,10 +55,10 @@ namespace sgl
 	{
 		deleteTexture();
 
-		id = other.id;
+		m_id = other.m_id;
 		m_size = other.m_size;
 
-		other.id = 0;
+		other.m_id = 0;
 
 		return *this;
 	}
@@ -68,15 +68,15 @@ namespace sgl
 		deleteTexture();
 	}
 
-	uint Texture::nativeHandle() const
+	uint Texture::id() const
 	{
-		return id;
+		return m_id;
 	}
 
 	void Texture::activate() const
 	{
-		glActiveTexture(GL_TEXTURE0 + id);
-		glBindTexture(GL_TEXTURE_2D, id);
+		glActiveTexture(GL_TEXTURE0 + m_id);
+		glBindTexture(GL_TEXTURE_2D, m_id);
 	}
 
     void Texture::create(const uvec2& size, Image::Type out_format, Image::Type in_format, 
@@ -86,7 +86,7 @@ namespace sgl
 
 		this->m_size = size;
 
-		glBindTexture(GL_TEXTURE_2D, id);
+		glBindTexture(GL_TEXTURE_2D, m_id);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, toOglType(out_format),
 			(GLsizei)size.x, (GLsizei)size.y,

@@ -93,7 +93,7 @@ namespace tests
 			shader->activate();
 
 			vbuf.activate(0);
-			vbuf.drawArrays(sgl::TriangleFan);
+			vbuf.drawArrays(sgl::DrawMode::TriangleFan);
 			vbuf.deactivate(0);
 
 			window.update();

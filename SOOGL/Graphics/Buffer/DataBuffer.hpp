@@ -7,10 +7,6 @@
 
 namespace sgl
 {
-	using namespace types;
-	using namespace color;
-	using namespace vec;
-
 	enum class LoadMode
 	{
 		// The data is set only once and used many times
@@ -77,4 +73,13 @@ namespace sgl
 	using ColorBuffer3f = DataBuffer<color3f, 3, GL_FLOAT>;
 	using ColorBuffer4f = DataBuffer<color4f, 4, GL_FLOAT>;
 	using UVBuffer = DataBuffer<fvec2, 2, GL_FLOAT>;
+
+	namespace buffer
+	{
+		using sgl::LoadMode;
+		using sgl::DataBuffer;
+		using sgl::ColorBuffer3f;
+		using sgl::ColorBuffer4f; 
+		using sgl::UVBuffer;
+	}
 }

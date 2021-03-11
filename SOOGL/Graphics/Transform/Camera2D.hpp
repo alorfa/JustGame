@@ -15,4 +15,9 @@ namespace sgl
 
 		static const Camera2D by_default;
 	};
+
+	namespace transformable
+	{
+		using sgl::Camera2D;
+	}
 }

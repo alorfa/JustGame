@@ -78,7 +78,7 @@ namespace sgl
 			};
 			vert_buf.activate(0, LoadMode::Dynamic);
 			uvs.activate(1, LoadMode::Dynamic);
-			vert_buf.drawArrays(PrimitiveType::TriangleFan);
+			vert_buf.drawArrays(DrawMode::TriangleFan);
 			uvs.deactivate(1);
 			vert_buf.deactivate(0);
 

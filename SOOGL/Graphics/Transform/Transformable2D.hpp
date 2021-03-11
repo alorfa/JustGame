@@ -55,4 +55,10 @@ namespace sgl
 
 		virtual const mat3& matrix() const;
 	};
+
+	namespace transformable
+	{
+		using sgl::Transform2D;
+		using sgl::Transformable2D;
+	}
 }

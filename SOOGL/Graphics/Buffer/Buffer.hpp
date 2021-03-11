@@ -66,4 +66,8 @@ namespace sgl
 			glBufferData(BUFFER_TYPE, SIZE * sizeof(T), &this->m_data[0], MODE);
 		}
 	};
+	namespace buffer
+	{
+		using sgl::Buffer;
+	}
 }
