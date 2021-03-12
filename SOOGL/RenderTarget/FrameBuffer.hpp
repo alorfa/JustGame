@@ -19,13 +19,12 @@ namespace sgl
 	private:
 		uint id;
 		Type type;
-		Texture texture;
+		Texture r_texture;
 	public:
-
 		FrameBuffer();
 		~FrameBuffer();
 
-		void create(uvec2 size, Type type);
+		void create(uvec2 size, Type type = Type::Default);
 		void activate() const;
 		void deactivate() const;
 
@@ -33,6 +32,9 @@ namespace sgl
 
 		inline uint nativeHandle() const {
 			return id;
+		}
+		inline const Texture& texture() const {
+			return r_texture;
 		}
 	};
 }

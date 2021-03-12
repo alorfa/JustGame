@@ -9,6 +9,10 @@
 *.filters
 *.user
 
+# images
+*.jpg
+*.png
+
 # User-specific files
 *.rsuser
 *.suo

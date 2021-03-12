@@ -41,7 +41,8 @@ namespace sgl
 			return false;
 
 		window->create(sf::VideoMode(size.x, size.y), title, sf::Style::Default);
-		glViewport(0, 0, (int)size.x, (int)size.y);
+		RenderTarget::viewport(size);
+		RenderTarget::default_framebuf_size = size;
 
 		glewExperimental = true;
 		if (glewInit() != GLEW_OK) {
@@ -72,6 +73,7 @@ namespace sgl
 	uvec2 Window::size(const uvec2& size)
 	{
 		window->setSize({ size.x, size.y });
+		RenderTarget::default_framebuf_size = size;
 		return size;
 	}
 	ivec2 Window::position() const

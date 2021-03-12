@@ -14,7 +14,7 @@ namespace gd
 			time_passed = change_time = 0.0;
 			return;
 		}
-		float ratio = time_passed / change_time;
+		float ratio = float(time_passed / change_time);
 		auto col = (fvec4)begin_color * (1.f - ratio) + (fvec4)end_color * ratio;
 		out_color = color4f(col.x, col.y, col.z, col.w);
 	}

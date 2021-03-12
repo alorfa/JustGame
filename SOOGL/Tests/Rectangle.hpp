@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
-#include "SOOGL/Graphics/Transform/Transform2D.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Graphics/Transform/Camera2D.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
 #include "SOOGL/Math/mat3.hpp"
@@ -17,46 +17,44 @@ namespace sgl::tests
 		static Uniform mat, img;
 		static const Shader* shader;
 
-		VertexBuffer2f vertexes;
-		ColorBuffer3f colors;
-		UVBuffer uv;
+		static VertexBuffer2f* vertexes;
+		static UVBuffer* uv;
+
 		const Texture* texture;
 	public:
+		void setTexture(const Texture& texture)
+		{
+			this->texture = &texture;
+		}
 		Rectangle(const Texture& texture)
 		{
-			vertexes.changeData() = {
-				{-1.f, -1.f},
-				{1.f, -1.f},
-				{1.f, 1.f},
-				{-1.f, 1.f}
-			};
-			/*
-			colors.changeData() = {
-				{0.f, 0.f, 1.f},
-				{0.f, 0.f, 1.f},
-				{0.f, 1.f, 1.f},
-				{0.f, 1.f, 1.f}
-			};/**/
-			colors.changeData() = {
-				{1.f, 1.f, 1.f},
-				{1.f, 1.f, 1.f},
-				{1.f, 1.f, 1.f},
-				{1.f, 1.f, 1.f}
-			};
-			uv.changeData() = {
+			setTexture(texture);
+		}
+
+		static void init()
+		{
+			// init buffers
+			vertexes = new VertexBuffer2f;
+			vertexes->changeData() = {
 				{0.f, 0.f},
 				{1.f, 0.f},
 				{1.f, 1.f},
 				{0.f, 1.f}
 			};
-			this->texture = &texture;
-		}
+			uv = new UVBuffer;
+			uv->changeData() = {
+				{0.f, 0.f},
+				{1.f, 0.f},
+				{1.f, 1.f},
+				{0.f, 1.f}
+			};
+			vertexes->clearFromMemory();
+			uv->clearFromMemory();
 
-		static void setShader(const Shader& shader)
-		{
-			Rectangle::shader = &shader;
-			mat = shader.location("transform");
-			img = shader.location("img");
+			// init shaders
+			Rectangle::shader = Shader::get(Vert2b | rUVb);
+			mat = shader->location("transform");
+			img = shader->location("img");
 			PRINT(mat);
 			PRINT(img);
 		}
@@ -73,18 +71,20 @@ namespace sgl::tests
 				shader->activate();
 			}
 
-			vertexes.activate(0);
-			colors.activate(1);
-			uv.activate(2);
+			vertexes->activate(0);
+			uv->activate(2);
 
-			vertexes.drawArrays(PrimitiveType::TriangleFan);
+			vertexes->drawArrays(DrawMode::TriangleFan);
 
-			uv.deactivate(2);
-			colors.deactivate(1);
-			vertexes.deactivate(0);
+			uv->deactivate(2);
+			vertexes->deactivate(0);
 		}
 	};
+	VertexBuffer2f* Rectangle::vertexes;
+	UVBuffer* Rectangle::uv;
+
 	Uniform Rectangle::mat = 0;
 	Uniform Rectangle::img = 0;
+
 	const Shader* Rectangle::shader = nullptr;
 }
