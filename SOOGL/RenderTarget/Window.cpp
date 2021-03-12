@@ -18,6 +18,7 @@ namespace sgl
 		std::string wnd_title;
 		uint frame_limit = 0;
 		bool vertical_sync = true;
+		bool resized = false;
 	}
 	using namespace wnd;
 
@@ -130,7 +131,7 @@ namespace sgl
 
 	bool Window::isResized() const
 	{
-		return event->type == event->Resized;
+		return resized;
 	}
 
 	bool Window::isOpen() const
@@ -150,13 +151,16 @@ namespace sgl
 		Keyboard::update();
 		Mouse::update();
 
-		window->pollEvent(*event);
+		while (window->pollEvent(*event))
+		{
+			if (event->type == sf::Event::Resized)
+				resized = true;
+		}
 		window->display();
 
-		if (isResized())
-		{
-			auto size = this->size();
-			glViewport(0, 0, (int)size.x, (int)size.y);
+		if (isResized()) {
+			RenderTarget::viewport(this->size());
+			RenderTarget::default_framebuf_size = this->size();
 		}
 
 		if (will_be_closed)

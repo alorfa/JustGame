@@ -25,6 +25,7 @@
 #include "SOOGL/RenderTarget/RenderBuffer.hpp"
 
 #include "SOOGL/Tests/Rectangle.hpp"
+#include "SOOGL/Tests/Sprite.hpp"
 
 namespace tests
 {
@@ -43,7 +44,7 @@ namespace tests
 			return -1;
 
 		Texture texture;
-		Shader to_fbo_shader;
+		Shader shader;
 		try
 		{
 			texture.loadFromFile("asd.jpg");
@@ -51,7 +52,7 @@ namespace tests
 			ShaderCompiler compiler;
 			compiler.loadFromFile("shaders/vertex.vsh", Shader::Vertex);
 			compiler.loadFromFile("shaders/fragment.fsh", Shader::Fragment);
-			to_fbo_shader = compiler.link();
+			shader = compiler.link();
 		}
 		catch (shader_error& err)
 		{
@@ -88,9 +89,8 @@ namespace tests
 		frame_buffer.deactivate();
 		PRINT(frame_buffer.isValid());
 
-		sgl::tests::Rectangle::init();
-		sgl::tests::Rectangle r1(texture);
-		sgl::tests::Rectangle r2(frame_buffer.texture());
+		sgl::Sprite sprite1(texture);
+		sgl::Sprite sprite2(frame_buffer.texture());
 
 		while (window.isOpen())
 		{
@@ -120,23 +120,28 @@ namespace tests
 				}
 
 				if (Keyboard::isPressed(Key::Left)) {
-					r1.move({ -0.5f * delta, 0 });
+					//r1.move({ -0.5f * delta, 0 });
 					//r2.move({ 0, -0.5f * delta });
 				}
 				if (Keyboard::isPressed(Key::Right)) {
-					r1.move({ 0.5f * delta, 0 });
+					//r1.move({ 0.5f * delta, 0 });
 					//r2.move({ 0, 0.5f * delta });
 				}
 			}
 			color.update(d_delta);
 
-			window.clearBuffer(Window::ColorBuf);
-			window.clear(color3f());
 
 			frame_buffer.activate();
-			r1.draw(camera);
+			{
+				window.clearBuffer(Window::ColorBuf);
+				window.clear(color3f());
+				sprite1.draw(camera, *Shader::get(Vert2b | rUVb));
+			}
 			frame_buffer.deactivate();
-			r2.draw(camera);
+
+			window.clearBuffer(Window::ColorBuf);
+			window.clear(color3f());
+			sprite2.draw(camera, shader);
 
 			window.update();
 		}
