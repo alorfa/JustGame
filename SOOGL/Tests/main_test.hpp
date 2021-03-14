@@ -26,14 +26,18 @@
 
 #include "SOOGL/Tests/Rectangle.hpp"
 #include "SOOGL/Tests/Sprite.hpp"
+#include "SOOGL/Tests/shader_creater.hpp"
 
-namespace tests
+namespace sgl::tests
 {
 	using namespace sgl;
 
 	int main_test()
 	{
 		Init Initializer;
+
+		//sgl::tests::shader_creater_test();
+		//return 0;
 
 		Blend::activate(Blend::Default);
 
@@ -81,13 +85,9 @@ namespace tests
 		gd::Color color;
 		color.change({ 0.8f, 0.1f, 0.5f, 1.f });
 
-		PRINT(RenderBuffer::isValid());
 		FrameBuffer frame_buffer;
-		frame_buffer.create({ 800, 800 });
-		frame_buffer.activate();
-		PRINT(frame_buffer.isValid());
-		frame_buffer.deactivate();
-		PRINT(frame_buffer.isValid());
+		//frame_buffer.create({ 50, 50 });
+		PRINT(frame_buffer.texture().flag());
 
 		sgl::Sprite sprite1(texture);
 		sgl::Sprite sprite2(frame_buffer.texture());
@@ -137,11 +137,13 @@ namespace tests
 				window.clear(color3f());
 				sprite1.draw(camera, *Shader::get(Vert2b | rUVb));
 			}
+			//*
 			frame_buffer.deactivate();
 
 			window.clearBuffer(Window::ColorBuf);
 			window.clear(color3f());
-			sprite2.draw(camera, shader);
+			sprite2.texture(texture);
+			sprite2.draw(camera, shader);/**/
 
 			window.update();
 		}

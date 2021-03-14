@@ -15,7 +15,7 @@ namespace sgl
 			if (this->need_to_update)
 				this->updateData();
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->buf.nativeHandle());
 			glDrawElements((GLenum)type, count, DATA_TYPE, nullptr);
 		}
 		void drawIndexes(DrawMode type) const
