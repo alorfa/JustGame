@@ -2,14 +2,16 @@
 #include "Shader.hpp"
 #include "SOOGL/Tests/debug.hpp"
 
-constexpr int anyUV = sgl::UVb | sgl::rUVb;
-constexpr int anyColb = sgl::Col3b | sgl::Col4b;
-constexpr int anyColu = sgl::Col3u | sgl::Col4u;
+using namespace sgl;
+
+constexpr int anyUV = UVb | rUVb;
+constexpr int anyColb = Col3b | Col4b;
+constexpr int anyColu = Col3u | Col4u;
 constexpr int anyCol = anyColb | anyColu;
 
 namespace sgl
 {
-	bool bothFlags(int flags, sgl::Inbuilt f1, sgl::Inbuilt f2)
+	bool bothFlags(int flags, Inbuilt f1, Inbuilt f2)
 	{
 		return ((flags & f1) && (flags & f2));
 	}
@@ -18,20 +20,20 @@ namespace sgl
 	{
 		std::string output = "#version 330\n\n";
 
-		if (bothFlags(shader, sgl::Vert2b, sgl::Vert3b) ||		// only one type of vertex
-			bothFlags(shader, sgl::Col3b, sgl::Col4b) ||		// and type of color
-			bothFlags(shader, sgl::UVb, sgl::rUVb))				// ...and other
+		if (bothFlags(shader, Vert2b, Vert3b) ||	// must be only one type of vertex
+			bothFlags(shader, Col3b, Col4b) ||		// and type of color
+			bothFlags(shader, UVb, rUVb))			// ...and other
 			return std::string();
 
 		// vertex buffer
-		if (shader & sgl::Vert2b)
+		if (shader & Vert2b)
 			output += "layout (location = 0) in vec2 in_vertex;\n";
-		else if (shader & sgl::Vert3b)
+		else if (shader & Vert3b)
 			output += "layout (location = 0) in vec3 in_vertex;\n";
 		else return std::string(); // Vertex buffer is required, at least one must be used
 
 		const std::string color_type = [&]() -> std::string {
-			if (shader & sgl::Col3b)
+			if (shader & Col3b)
 				return "vec3";
 			return "vec4";
 		}();
@@ -56,7 +58,7 @@ namespace sgl
 		}
 
 		// transform
-		if (shader & sgl::Vert2b)
+		if (shader & Vert2b)
 			output += "uniform mat3 transform";
 		else output += "uniform mat4 transform";
 		output += ";\n\n";
@@ -65,7 +67,7 @@ namespace sgl
 		output += "void main()\n"
 			"{\n";
 		// vertex
-		if (shader & sgl::Vert2b) {
+		if (shader & Vert2b) {
 			output += "\tvec3 out_pos = transform * vec3(in_vertex, 1.0);\n"
 				"\tgl_Position = vec4(out_pos.xy, 0, 1);\n";
 		} else {
@@ -75,9 +77,9 @@ namespace sgl
 		if (shader & anyColb)
 			output += "\tfrag_color = in_color;\n";
 		// UV
-		if (shader & sgl::UVb)
+		if (shader & UVb)
 			output += "\tfrag_UV = in_UV;\n";
-		if (shader & sgl::rUVb)
+		if (shader & rUVb)
 			output += "\tfrag_UV = vec2(in_UV.x, 1 - in_UV.y);\n";
 
 		output += "}";
@@ -90,74 +92,74 @@ namespace sgl
 	{
 		std::string output = "#version 330\n\n";
 
-		if (bothFlags(shader, sgl::Col3b, sgl::Col4b) ||
-			bothFlags(shader, sgl::Col3u, sgl::Col4u) ||
-			bothFlags(shader, (sgl::Inbuilt)anyColb, (sgl::Inbuilt)anyColu)) // there must be either a buffer or a uniform 
+		if (bothFlags(shader, Col3b, Col4b) ||
+			bothFlags(shader, Col3u, Col4u))
 			return std::string();
 
-		if (not (shader & (anyUV | anyCol)))
-			return std::string();
-
-		const std::string color_type = [&]() -> std::string {
-			if (shader & (sgl::Col3b | sgl::Col3u))
+		const std::string color_buf_type = [&]() {
+			if (shader & Col3b)
+				return "vec3";
+			return "vec4";
+		}();
+		const std::string color_uni_type = [&]() {
+			if (shader & Col3u)
 				return "vec3";
 			return "vec4";
 		}();
 
 		// in variables
-		if (shader & anyColb) output += "in " + color_type + " frag_color;\n";
+		if (shader & anyColb) output += "in " + color_buf_type + " frag_color;\n";
 		if (shader & anyUV) output += "in vec2 frag_UV;\n";
-		if (shader & (anyColb | anyUV))
-			output += "\n";
+		if (shader & (anyColb | anyUV)) output += "\n";
 
 		// out color
 		output += "out vec4 out_color;\n\n";
 
 		// uniforms
-		if (shader & anyColu) output += "uniform " + color_type + " color;\n";
+		if (shader & anyColu) output += "uniform " + color_uni_type + " color;\n";
 		if (shader & anyUV) output += "uniform sampler2D img;\n";
 		if (shader & (anyColu | anyUV)) output += "\n";
 
-		// void main()
+		// void main() {
 		output += "void main()\n"
 			"{\n";
 
-		auto additionalColor = [&]() -> std::string 
+		if (not (shader & (anyUV | anyCol))) // not texture and not color == just white
 		{
-			std::string outp;
-			if (shader & sgl::Col3b) outp += "vec4(frag_color, 1)";
-			if (shader & sgl::Col4b) outp += "frag_color";
-			if (shader & sgl::Col3u) outp += "vec4(color, 1)";
-			if (shader & sgl::Col4u) outp += "color";
-			return outp;
+			output += "\tout_color = vec4(1, 1, 1, 1);\n"
+				"}";
+			return output;
+		}
+
+		auto additionalColorBuf = [&]() -> std::string 
+		{
+			if (shader & Col3b) return "vec4(frag_color, 1)";
+			if (shader & Col4b) return "frag_color";
+			return std::string();
+		};
+		auto additionalColorUnif = [&]() -> std::string
+		{
+			if (shader & Col3u) return "vec4(color, 1)";
+			if (shader & Col4u) return "color";
+			return std::string();
 		};
 
 		output += "\tout_color = ";
-		/**/
+
 		std::vector<std::string> out_col_comps;
 		if (shader & anyUV)
 			out_col_comps.push_back("texture(img, frag_UV)");
-		if (shader & anyCol)
-			out_col_comps.push_back(additionalColor());
+		if (shader & anyColb)
+			out_col_comps.push_back(additionalColorBuf());
+		if (shader & anyColu)
+			out_col_comps.push_back(additionalColorUnif());
+
 		size_t i = 0;
 		for (; i < out_col_comps.size() - 1; i++)
 			output += out_col_comps[i] + " * ";
-		output += out_col_comps[i] + ";\n";/**/
-		/*
-		if (shader & anyUV)
-		{
-			output += "texture(img, frag_UV)";
-			if (shader & anyCol)
-				output += " * " + additionalColor() + ";\n";
-		}
-		else
-		{
-			output += additionalColor() + ";\n";
-		}/**/
+		output += out_col_comps[i] + ";\n";
 
 		output += "}";
-
-		//PRINT(output);
 
 		return output;
 	}

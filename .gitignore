@@ -13,6 +13,8 @@
 *.jpg
 *.png
 
+Game/main.cpp
+
 # User-specific files
 *.rsuser
 *.suo

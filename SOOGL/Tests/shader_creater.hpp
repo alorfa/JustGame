@@ -9,8 +9,7 @@ namespace sgl::tests
 	inline void shader_creater_test()
 	{
 		using namespace std;
-
-		
+		/*
 		cout << "Vert2b | Col3b:\n" <<
 			ShaderCreater::createVertex(sgl::Vert2b | sgl::Col3b) << endl <<
 			ShaderCreater::createFragment(sgl::Vert2b | sgl::Col3b) << endl << endl;
@@ -26,5 +25,13 @@ namespace sgl::tests
 		cout << "Vert2b | Col3u:\n" <<
 			ShaderCreater::createVertex(sgl::Vert2b | sgl::Col3u) << endl <<
 			ShaderCreater::createFragment(sgl::Vert2b | sgl::Col3u) << endl << endl;
+		cout << "Vert2b | UVb:\n" <<
+			ShaderCreater::createVertex(Vert2b | UVb) << endl;
+		cout << "Vert2b | rUVb:\n" <<
+			ShaderCreater::createVertex(Vert2b | rUVb) << endl;/**/
+
+		cout << "Vert2b | Col3b | Col4u:\n" <<
+			ShaderCreater::createFragment(Vert2b | Col3b | Col4u) << endl << endl;
+
 	}
 }
