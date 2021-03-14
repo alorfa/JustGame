@@ -35,10 +35,16 @@ namespace sgl
 		~Texture();
 
 		void create(const uvec2& size, Image::Type out_format, Image::Type in_format, 
+			const void* data, int flag = Smooth);
+		void loadFromImage(const Image& image, int flag = Smooth);
+		void loadFromMemory(const ubyte* data, size_t size, int flag = Smooth);
+		void loadFromFile(const std::filesystem::path& path, int flag = Smooth);
+
+		Texture(const uvec2& size, Image::Type out_format, Image::Type in_format,
 			const void* data, int settings = Smooth);
-		void loadFromImage(const Image& image, Flag flag = Smooth);
-		void loadFromMemory(const ubyte* data, size_t size, Flag flag = Smooth);
-		void loadFromFile(const std::filesystem::path& path, Flag flag = Smooth);
+		Texture(const Image& image, int flag = Smooth);
+		Texture(const ubyte* data, size_t size, int flag = Smooth);
+		Texture(const std::filesystem::path& path, int flag = Smooth);
 
 		uint nativeHandle() const;
 
@@ -50,5 +56,7 @@ namespace sgl
 		inline bool isValid() const {
 			return m_size.x && m_size.y;
 		}
+		Flag flag() const;
+		Flag flag(int new_flag) const;
 	};
 }

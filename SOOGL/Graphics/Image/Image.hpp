@@ -30,8 +30,8 @@ namespace sgl
 
 		void clear();
 
-		/* Just copies new size, type and pointer to the image data(not the image data itself).
-		* Be careful with this method*/
+		/* Just clears and copies new size, type and pointer to the image data(not the 
+		* image data itself). Be careful with this method*/
 		void useImageData(const uvec2& size, Image::Type type, ubyte* data);
 		/* Creates a complete copy of the image. Absolutely safe method*/
 		void create(const uvec2& size, Image::Type type, const ubyte* data);

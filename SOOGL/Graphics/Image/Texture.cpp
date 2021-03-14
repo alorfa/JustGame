@@ -21,13 +21,13 @@ namespace sgl
 	}
 	GLenum toOglWrap(int wrap_type)
 	{
-		if (wrap_type & Texture::Flag::Repeat)
+		if (wrap_type & Texture::Repeat)
 			return GL_REPEAT;
-		if (wrap_type & Texture::Flag::MirroredRepeat)
+		if (wrap_type & Texture::MirroredRepeat)
 			return GL_MIRRORED_REPEAT;
-		if (wrap_type & Texture::Flag::ClampToEdge)
+		if (wrap_type & Texture::ClampToEdge)
 			return GL_CLAMP_TO_EDGE;
-		if (wrap_type & Texture::Flag::ClampToBorder)
+		if (wrap_type & Texture::ClampToBorder)
 			return GL_CLAMP_TO_BORDER;
 		return GL_REPEAT;
 	}
@@ -57,6 +57,7 @@ namespace sgl
 
 		id = other.id;
 		m_size = other.m_size;
+		flag(other.flag());
 
 		other.id = 0;
 
@@ -79,9 +80,36 @@ namespace sgl
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 
-    void Texture::create(const uvec2& size, Image::Type out_format, Image::Type in_format, 
+	Texture::Flag Texture::flag() const
+	{
+		glBindTexture(GL_TEXTURE_2D, id);
+		return Flag::Nothing;
+	}
+
+	Texture::Flag Texture::flag(int new_flag) const
+	{
+		glBindTexture(GL_TEXTURE_2D, id);
+
+		if (new_flag & Flag::Smooth) {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		}
+		else {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, toOglWrap(new_flag));
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, toOglWrap(new_flag));
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		return flag();
+	}
+
+	void Texture::create(const uvec2& size, Image::Type out_format, Image::Type in_format, 
 		const void* data, int flag)
-    {
+	{
 		createTexture();
 
 		this->m_size = size;
@@ -95,35 +123,58 @@ namespace sgl
 		if (OGL_ERROR())
 			PRINT(out_format);
 
-		if (flag & Flag::Smooth) {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		} else {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}
+		this->flag(flag);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, toOglWrap(flag));
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, toOglWrap(flag));
+		glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-	void Texture::loadFromImage(const Image& image, Flag flag)
+	void Texture::loadFromImage(const Image& image, int flag)
 	{
 		create(image.size(), image.type(), Image::RGB_Alpha, image.data<void>(), flag);
 	}
 
-	void Texture::loadFromMemory(const ubyte* data, size_t size, Flag flag)
+	void Texture::loadFromMemory(const ubyte* data, size_t size, int flag)
 	{
 		Image image;
 		image.loadFromMemory(data, size);
 		loadFromImage(image, flag);
 	}
 
-	void Texture::loadFromFile(const std::filesystem::path& path, Flag flag)
+	void Texture::loadFromFile(const std::filesystem::path& path, int flag)
 	{
 		Image image;
 		image.loadFromFile(path);
 		loadFromImage(image, flag);
+	}
+
+	Texture::Texture(const uvec2& size, Image::Type out_format, Image::Type in_format, const void* data, int settings)
+	{
+		create(size, out_format, in_format, data, settings);
+	}
+
+	Texture::Texture(const Image& image, int flag)
+	{
+		loadFromImage(image, flag);
+	}
+
+	Texture::Texture(const ubyte* data, size_t size, int flag)
+	{
+		try {
+			loadFromMemory(data, size, flag);
+		} catch (...) {
+			this->~Texture();
+			throw;
+		}
+	}
+
+	Texture::Texture(const std::filesystem::path& path, int flag)
+	{
+		try {
+			loadFromFile(path, flag);
+		} catch (...) {
+			this->~Texture();
+			throw;
+		}
 	}
 
 }

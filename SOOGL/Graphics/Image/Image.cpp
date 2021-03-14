@@ -34,10 +34,7 @@ namespace sgl
 	}
 	Image& Image::operator=(Image&& other) noexcept
 	{
-		clear();
-		m_size = other.m_size;
-		m_type = other.m_type;
-		m_data = other.m_data;
+		useImageData(other.m_size, other.m_type, other.m_data);
 		other.m_data = nullptr;
 
 		return *this;
