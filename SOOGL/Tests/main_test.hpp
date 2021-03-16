@@ -133,14 +133,12 @@ namespace sgl::tests
 
 			frame_buffer.activate();
 			{
-				window.clearBuffer(Window::ColorBuf);
 				window.clear(color3f());
 				sprite1.draw(camera, *Shader::get(Vert2b | rUVb));
 			}
 			//*
 			frame_buffer.deactivate();
 
-			window.clearBuffer(Window::ColorBuf);
 			window.clear(color3f());
 			sprite2.texture(texture);
 			sprite2.draw(camera, shader);/**/

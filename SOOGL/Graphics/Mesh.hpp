@@ -5,12 +5,13 @@
 #include "SOOGL/Graphics/Transform/Camera2D.hpp"
 #include "SOOGL/Graphics/Image/Texture.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
+#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 
 namespace sgl
 {
 	class Mesh : public Transformable2D
 	{
-		const VertexBuffer2f* vertb;
+		const VertexBuffer2f* vertb = nullptr;
 		union {
 			const ColorBuffer3f* f3;
 			const ColorBuffer4f* f4;
@@ -19,12 +20,12 @@ namespace sgl
 			const color3f* f3;
 			const color4f* f4;
 		} colu;
-		const UVBuffer* uvb;
-		const Texture* tex;
+		const UVBuffer* uvb = nullptr;
+		const Texture* tex = nullptr;
 
-		const IndexBuffer* indb;
+		const IndexBuffer* indb = nullptr;
 
-		bool is_col3b, is_col3u;
+		bool is_col3b = false, is_col3u = false;
 	private:
 		int vertFlag() const;
 		int colbufFlag() const;
@@ -56,6 +57,6 @@ namespace sgl
 		void draw(const Camera2D& cumera, DrawMode mode, const Shader* shader = nullptr, 
 			const char* transform_mat_unif = "transform", const char* col_unif = "color",
 			const char* tex_unif = "img",
-			int vert_attr = 0, int col_attr = 1, int uv_attr = 2) const;
+			int vert_attr = 0, int col_attr = 1, int uv_attr = 2);
 	};
 }

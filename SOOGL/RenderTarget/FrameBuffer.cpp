@@ -33,12 +33,12 @@ namespace sgl
 		this->type = type;
 		r_texture.create(size, Image::RGB, Image::RGB, nullptr, Texture::Nothing);
 
-		activate();
+		bind(type, id);
 
 		glFramebufferTexture2D(toOglType(type), GL_COLOR_ATTACHMENT0, 
 			GL_TEXTURE_2D, r_texture.nativeHandle(), 0);
 
-		deactivate();
+		bind(type, 0);
 	}
 	void FrameBuffer::activate() const
 	{

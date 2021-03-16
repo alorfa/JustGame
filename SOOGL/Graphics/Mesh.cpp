@@ -3,8 +3,10 @@
 namespace sgl
 {
 	Mesh::Mesh()
+		: Transformable2D()
 	{
-		memset(this, 0, sizeof(Mesh));
+		colb.f3 = nullptr;
+		colu.f3 = nullptr;
 	}
 	Mesh::~Mesh() { }
 
@@ -84,7 +86,7 @@ namespace sgl
 	void Mesh::draw(const Camera2D & cumera, DrawMode mode, const Shader* shader,
 		const char* tr_mat_unif, const char* col_unif,
 		const char* tex_unif,
-		int vert_attr, int col_attr, int uv_attr) const
+		int vert_attr, int col_attr, int uv_attr)
 	{
 
 		if (vertFlag() == 0)	// if vertex buffer does not exists
@@ -102,7 +104,7 @@ namespace sgl
 
 		// compute matrix
 		mat3 out;
-		mat3::multiply(cumera.matrix(), this->matrix(), out);
+		mat3::multiply(cumera.matrix(), matrix(), out);
 
 		// set uniforms
 		shader->setUniform(shader->location(tr_mat_unif), out);
