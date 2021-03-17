@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
-#include "SOOGL/RenderTarget/Window.hpp"
+#include "SOOGL/Render/Window.hpp"
 #include "SOOGL/System/Time/Clock.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
 #include "SOOGL/Graphics/Image/Texture.hpp"

@@ -4,13 +4,10 @@
 
 namespace sgl
 {
-	using namespace vec;
-	using namespace types;
-
 	struct Transform3D
 	{
 		fvec3 position;
-		vec3<rotation_type> rotation;
+		vec3<float> rotation;
 		fvec3 scale;
 	};
 }

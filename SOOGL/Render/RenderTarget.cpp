@@ -1,4 +1,4 @@
-#include "SOOGL/RenderTarget/RenderTarget.hpp"
+#include "RenderTarget.hpp"
 #include "SOOGL/Other/opengl.h"
 
 namespace sgl
@@ -39,6 +39,19 @@ namespace sgl
 			(float)color.b / 255.f,
 			1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+	void RenderTarget::drawArrays(DrawMode mode, int begin, int count)
+	{
+		glDrawArrays((GLenum)mode, begin, count);
+	}
+	void RenderTarget::drawIndexes(DrawMode mode, int count)
+	{
+		glDrawElements((GLenum)mode, count, GL_UNSIGNED_INT, nullptr);
+	}
+	void RenderTarget::drawIndexes(DrawMode mode, int count, uint gl_type)
+	{
+		glDrawElements((GLenum)mode, count, gl_type, nullptr);
 	}
 
 	uvec2 RenderTarget::default_framebuf_size;

@@ -3,19 +3,15 @@
 #include "DataBuffer.hpp"
 #include "SOOGL/Math/vec2.hpp"
 #include "SOOGL/Math/vec3.hpp"
+#include "SOOGL/Render/RenderTarget.hpp"
 
 namespace sgl
 {
-	enum class DrawMode : GLenum
-	{
-		Points = GL_POINTS,
-		Lines = GL_LINES,
-		LineStrip = GL_LINE_STRIP,
-		LineLoop = GL_LINE_LOOP,
-		Triangles = GL_TRIANGLES,
-		TriangleStrip = GL_TRIANGLE_STRIP,
-		TriangleFan = GL_TRIANGLE_FAN
-	};
+	template <typename T, uint COMPONENTS_COUNT, GLenum DATA_TYPE>
+	class VertexBuffer;
+
+	using VertexBuffer3f = VertexBuffer<fvec3, 3, GL_FLOAT>;
+	using VertexBuffer2f = VertexBuffer<fvec2, 2, GL_FLOAT>;
 
 	template <typename T, uint COMPONENTS_COUNT, GLenum DATA_TYPE>
 	class VertexBuffer : public DataBuffer<T, COMPONENTS_COUNT, DATA_TYPE>
@@ -29,14 +25,22 @@ namespace sgl
 		{
 			glDrawArrays(GLenum(type), 0, (GLsizei)this->data_size_in_ogl);
 		}
-	};
 
-	using VertexBuffer3f = VertexBuffer<fvec3, 3, GL_FLOAT>;
-	using VertexBuffer2f = VertexBuffer<fvec2, 2, GL_FLOAT>;
+		static const VertexBuffer2f& default_quad_verts()
+		{
+			static VertexBuffer2f b;
+			b.changeData() = {
+				{0.f, 0.f},
+				{0.f, 1.f},
+				{1.f, 1.f},
+				{1.f, 0.f}
+			};
+			return b;
+		}
+	};
 
 	namespace buffer
 	{
-		using sgl::DrawMode;
 		using sgl::VertexBuffer;
 		using sgl::VertexBuffer2f;
 		using sgl::VertexBuffer3f;

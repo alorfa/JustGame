@@ -1,7 +1,7 @@
 #pragma once
 
+#include "RenderTarget.hpp"
 #include "SOOGL/Math/vec2.hpp"
-#include "SOOGL/RenderTarget/RenderTarget.hpp"
 #include <string>
 #include "SOOGL/Math/rect_area.hpp"
 

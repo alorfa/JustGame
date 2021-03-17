@@ -1,7 +1,7 @@
+#include "Window.hpp"
 #include "SOOGL/Other/opengl.h"
 #include <SFML/Window/Window.hpp>
 #include <SFML/Window/Event.hpp>
-#include "SOOGL/RenderTarget/Window.hpp"
 #include "SOOGL/System/User/Keyboard.hpp"
 #include "SOOGL/System/User/Mouse.hpp"
 

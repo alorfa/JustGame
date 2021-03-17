@@ -24,7 +24,7 @@ namespace sgl
 		FrameBuffer();
 		~FrameBuffer();
 
-		void create(uvec2 size, Type type = Type::Default);
+		void create(uvec2 size, Image::Type pixel_format = Image::RGB, Type type = Type::Default);
 		void activate() const;
 		void deactivate() const;
 

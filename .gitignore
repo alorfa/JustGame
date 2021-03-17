@@ -15,6 +15,10 @@
 
 Game/main.cpp
 
+# dont works classes
+SOOGL/Render/RenderBuffer.*
+SOOGL/Graphics/Buffer/UniqueBuffer.*
+
 # User-specific files
 *.rsuser
 *.suo

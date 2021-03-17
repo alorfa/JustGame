@@ -9,8 +9,8 @@ namespace sgl
 	class Buffer
 	{
 	private:
-		GLuint id;
 		std::vector<T> m_data;
+		GLuint id;
 
 		void create() {
 			if (not id)

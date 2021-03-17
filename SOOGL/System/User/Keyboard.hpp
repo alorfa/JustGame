@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Window/Keyboard.hpp>
-#include "SOOGL/RenderTarget/Window.hpp"
+#include "SOOGL/Render/Window.hpp"
 
 namespace sgl
 {

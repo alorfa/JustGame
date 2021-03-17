@@ -1,12 +1,13 @@
 #pragma once
 
 #include "SOOGL/Graphics/Mesh.hpp"
-#include "SOOGL/RenderTarget/Window.hpp"
+#include "SOOGL/Render/Window.hpp"
+#include "SOOGL/Render/FrameBuffer.hpp"
 #include "SOOGL/System/User/Keyboard.hpp"
-#include "SOOGL/RenderTarget/RenderBuffer.hpp"
-#include "SOOGL/Graphics/Shader/ShaderCompiler.hpp"
-#include "SOOGL/Graphics/Shader/ShaderCreater.hpp"
+#include "SOOGL/Graphics/Shader.hpp"
 #include "SOOGL/Other/exceptions.hpp"
+#include "SOOGL/System/Time/Clock.hpp"
+#include "SOOGL/Tests/debug.hpp"
 
 namespace sgl::tests
 {
@@ -43,18 +44,8 @@ namespace sgl::tests
 			return;
 		}
 
-		vb.changeData() = {
-			{0.f, 0.f},
-			{0.f, 1.f},
-			{1.f, 1.f},
-			{1.f, 0.f}
-		};
-		uvb.changeData() = {
-			{0.f, 0.f},
-			{0.f, 1.f},
-			{1.f, 1.f},
-			{1.f, 0.f}
-		};
+		vb = VertexBuffer2f::default_quad_verts();
+		uvb = UVBuffer::default_quad_UV();
 		cb.changeData() = {
 			{1.f, 1.f, 1.f},
 			{0.5f, 0.5f, 0.5f},
@@ -80,8 +71,8 @@ namespace sgl::tests
 		m2.uvBuffer(&uvb);
 		m2.texture(&t2);
 		m2.position(-0.4f, -0.4f);
-		//m2.scope(0.8f, 0.8f);
-		m2.position(-0.5f, -0.5f);
+		m2.scope(0.8f, 0.8f);
+		//m2.position(-0.5f, -0.5f);
 
 		Clock clock;
 

@@ -28,10 +28,10 @@ namespace sgl
 	{
 		glDeleteFramebuffers(1, &id);
 	}
-	void FrameBuffer::create(uvec2 size, Type type)
+	void FrameBuffer::create(uvec2 size, Image::Type pixel_format, Type type)
 	{
 		this->type = type;
-		r_texture.create(size, Image::RGB, Image::RGB, nullptr, Texture::Nothing);
+		r_texture.create(size, pixel_format, pixel_format, nullptr, Texture::Nothing);
 
 		bind(type, id);
 

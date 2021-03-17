@@ -63,7 +63,7 @@ namespace sgl
 		{
 			return buf.data();
 		}
-		// returns non-const vector<T>&, you can change it(before first draw call)
+		// returns non-const vector<T>&, you can change it
 		std::vector<T>& changeData()
 		{
 			this->need_to_update = true;
@@ -79,20 +79,6 @@ namespace sgl
 
 	using ColorBuffer3f = DataBuffer<color3f, 3, GL_FLOAT>;
 	using ColorBuffer4f = DataBuffer<color4f, 4, GL_FLOAT>;
-	using UVBuffer = DataBuffer<fvec2, 2, GL_FLOAT>;
-	/*
-	const UVBuffer default_quad_UVs({
-		{0.f, 0.f},
-		{0.f, 1.f},
-		{1.f, 1.f},
-		{1.f, 0.f}
-	});
-	const UVBuffer default_rev_quad_UVs({
-		{0.f, 1.f},
-		{0.f, 0.f},
-		{1.f, 0.f},
-		{1.f, 1.f}
-	});/**/
 
 	namespace buffer
 	{
@@ -100,6 +86,5 @@ namespace sgl
 		using sgl::DataBuffer;
 		using sgl::ColorBuffer3f;
 		using sgl::ColorBuffer4f; 
-		using sgl::UVBuffer;
 	}
 }

@@ -2,7 +2,7 @@
 
 #include <SFML/Window/Mouse.hpp>
 #include "SOOGL/Math/vec2.hpp"
-#include "SOOGL/RenderTarget/Window.hpp"
+#include "SOOGL/Render/Window.hpp"
 
 namespace sgl
 {

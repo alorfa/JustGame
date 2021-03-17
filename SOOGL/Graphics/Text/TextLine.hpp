@@ -2,7 +2,7 @@
 
 #include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 #include "SOOGL/Graphics/Text/Font.hpp"
-#include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
+#include "SOOGL/Graphics/Buffer.hpp"
 #include "SOOGL/System/string.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
 #include "SOOGL/Graphics/color.hpp"

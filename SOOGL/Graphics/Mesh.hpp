@@ -1,11 +1,9 @@
 #pragma once
 
-#include "SOOGL/Graphics/Buffer/VertexBuffer.hpp"
-#include "SOOGL/Graphics/Buffer/IndexBuffer.hpp"
-#include "SOOGL/Graphics/Transform/Camera2D.hpp"
+#include "SOOGL/Graphics/Buffer.hpp"
+#include "SOOGL/Graphics/Transform.hpp"
 #include "SOOGL/Graphics/Image/Texture.hpp"
 #include "SOOGL/Graphics/Shader/Shader.hpp"
-#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
 
 namespace sgl
 {
