@@ -83,7 +83,7 @@ namespace sgl
 	{
 		tex = t;
 	}
-	void Mesh::draw(const Camera2D & cumera, DrawMode mode, const Shader* shader,
+	void Mesh::draw(const Camera2D& cumera, DrawMode mode, const Shader* shader,
 		const char* tr_mat_unif, const char* col_unif,
 		const char* tex_unif,
 		int vert_attr, int col_attr, int uv_attr)
@@ -107,6 +107,8 @@ namespace sgl
 		mat3::multiply(cumera.matrix(), matrix(), out);
 
 		// set uniforms
+		shader->activate();
+
 		shader->setUniform(shader->location(tr_mat_unif), out);
 		if (coluniFlag()) {	// if there is a color uniform
 
@@ -117,7 +119,6 @@ namespace sgl
 		{
 			shader->setUniform(shader->location(tex_unif), *tex);
 		}
-		shader->activate();
 
 		// activate attributes and drawing
 		vertb->activate(vert_attr);

@@ -40,7 +40,7 @@ namespace sgl
 		mat3::multiply(camera.matrix(), this->matrix(), out_matrix);
 		shader.activate();
 		shader.setUniform(shader.location("transform"), out_matrix);
-		shader.setUniform(shader.location("textColor"), col.asVec3());
+		shader.setUniform(shader.location("textColor"), (fvec3)col);
 
 		const Font::GlyphMap& glyph_map = fontptr->glyphMap();
 

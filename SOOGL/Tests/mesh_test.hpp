@@ -3,7 +3,10 @@
 #include "SOOGL/Graphics/Mesh.hpp"
 #include "SOOGL/RenderTarget/Window.hpp"
 #include "SOOGL/System/User/Keyboard.hpp"
-#include "SOOGL/RenderTarget/FrameBuffer.hpp"
+#include "SOOGL/RenderTarget/RenderBuffer.hpp"
+#include "SOOGL/Graphics/Shader/ShaderCompiler.hpp"
+#include "SOOGL/Graphics/Shader/ShaderCreater.hpp"
+#include "SOOGL/Other/exceptions.hpp"
 
 namespace sgl::tests
 {
@@ -20,6 +23,25 @@ namespace sgl::tests
 		ColorBuffer3f cb;
 		IndexBuffer ib;
 		Texture t1, t2;
+
+		Shader post_proc;
+		try
+		{
+			ShaderCompiler compiler;
+			auto vertex_data = ShaderCreater::createVertex(Vert2b | UVb);
+			compiler.loadFromMemory(vertex_data.c_str(), Shader::Vertex);
+			compiler.loadFromFile("shaders/8bit.fsh", Shader::Fragment);
+			post_proc = compiler.link();
+		}
+		catch (shader_error& e)
+		{
+			PRINT(e.message());
+			return;
+		}
+		catch (...)
+		{
+			return;
+		}
 
 		vb.changeData() = {
 			{0.f, 0.f},
@@ -49,7 +71,7 @@ namespace sgl::tests
 		m1.vertexBuffer(&vb);
 		m1.uvBuffer(&uvb);
 		m1.texture(&t1);
-		m1.color(&color);
+		//m1.color(&color);
 		m1.indexBuffer(&ib);
 		m1.position(-0.5f, -0.5f);
 		m1.reverse_uv = true;
@@ -57,14 +79,14 @@ namespace sgl::tests
 		m2.vertexBuffer(&vb);
 		m2.uvBuffer(&uvb);
 		m2.texture(&t2);
-		m2.position(-0.25f, -0.25f);
-		m2.scope(0.5f, 0.5f);
-		//m2.reverse_uv = true;
+		m2.position(-0.4f, -0.4f);
+		//m2.scope(0.8f, 0.8f);
+		m2.position(-0.5f, -0.5f);
 
 		Clock clock;
 
 		FrameBuffer fbuf;
-		fbuf.create({ 50, 50 });
+		fbuf.create({ 800, 800 });
 		m2.texture(&fbuf.texture());
 
 		while (window.isOpen())
@@ -81,16 +103,15 @@ namespace sgl::tests
 
 			fbuf.activate(); 
 			{
-				PRINTR(fbuf.isValid());
 				fbuf.clear(color3f());
 				m1.draw(Camera2D::by_default, DrawMode::Triangles);
-				m1.draw(Camera2D::by_default, DrawMode::Triangles);
 			}
-			fbuf.deactivate(); 
+			fbuf.deactivate();
 
-			window.clear(color3f(0.5f, 0.5f, 0.5f));
-			m2.draw(Camera2D::by_default, DrawMode::TriangleFan);
-			m2.draw(Camera2D::by_default, DrawMode::TriangleFan); 
+			window.clear(color3f());
+
+			m2.draw(Camera2D::by_default, DrawMode::TriangleFan, &post_proc);
+
 			window.update();
 		}
 	}
