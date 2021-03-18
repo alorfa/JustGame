@@ -6,7 +6,7 @@
 
 namespace sgl
 {
-	// DONT WORKS
+	// TODO: not done
 	template <typename... T>
 	class UniqueBuffer
 	{

@@ -10,9 +10,6 @@
 
 namespace sgl
 {
-	using namespace color;
-	using namespace mat;
-
 	class TextLine : public Transformable2D
 	{
 		const Font* fontptr = nullptr;
@@ -26,6 +23,6 @@ namespace sgl
 		const string& content(const string& new_content);
 		const string& content();
 
-		void draw(const Camera2D& camera, const Shader& shader, const color3f& col);
+		void draw(const Camera2DBase& camera, const color3f& col, const Shader& shader);
 	};
 }

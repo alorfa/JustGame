@@ -3,3 +3,4 @@
 #include "Buffer/IndexBuffer.hpp"
 #include "Buffer/UVBuffer.hpp"
 #include "Buffer/VertexBuffer.hpp"
+#include "Buffer/Activator.hpp"

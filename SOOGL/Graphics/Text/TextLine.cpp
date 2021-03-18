@@ -29,15 +29,16 @@ namespace sgl
 	{
 		return m_content;
 	}
-	void TextLine::draw(const Camera2D& camera, const Shader& shader, const color3f& col)
+	void TextLine::draw(const Camera2DBase& camera, const color3f& col, const Shader* shader)
 	{
-		constexpr float scale = 1.f;
-
 		if (!fontptr)
 			return;
 
 		mat3 out_matrix;
 		mat3::multiply(camera.matrix(), this->matrix(), out_matrix);
+
+
+
 		shader.activate();
 		shader.setUniform(shader.location("transform"), out_matrix);
 		shader.setUniform(shader.location("textColor"), (fvec3)col);
@@ -49,12 +50,7 @@ namespace sgl
 
 		VertexBuffer2f vert_buf;
 		UVBuffer uvs;
-		uvs.changeData() = {
-			{0.f, 0.f},
-			{0.f, 1.f},
-			{1.f, 1.f},
-			{1.f, 0.f},
-		};
+		uvs = UVBuffer::default_quad_UV();
 
 		for (auto ch : m_content)
 		{
@@ -77,7 +73,7 @@ namespace sgl
 				{ xpos + w, ypos + h }
 			};
 			vert_buf.activate(0, LoadMode::Dynamic);
-			uvs.activate(1, LoadMode::Dynamic);
+			uvs.activate(1, LoadMode::Static);
 			vert_buf.drawArrays(DrawMode::TriangleFan);
 			uvs.deactivate(1);
 			vert_buf.deactivate(0);

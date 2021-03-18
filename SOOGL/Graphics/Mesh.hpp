@@ -50,9 +50,9 @@ namespace sgl
 
 		void texture(const Texture* t);
 
-		bool reverse_uv;
+		bool reverse_uv = false;
 	public:
-		void draw(const Camera2D& cumera, DrawMode mode, const Shader* shader = nullptr, 
+		void draw(const Camera2DBase& cumera, DrawMode mode, const Shader* shader = nullptr, 
 			const char* transform_mat_unif = "transform", const char* col_unif = "color",
 			const char* tex_unif = "img",
 			int vert_attr = 0, int col_attr = 1, int uv_attr = 2);

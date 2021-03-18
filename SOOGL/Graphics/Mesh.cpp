@@ -83,12 +83,11 @@ namespace sgl
 	{
 		tex = t;
 	}
-	void Mesh::draw(const Camera2D& cumera, DrawMode mode, const Shader* shader,
+	void Mesh::draw(const Camera2DBase& cumera, DrawMode mode, const Shader* shader,
 		const char* tr_mat_unif, const char* col_unif,
 		const char* tex_unif,
 		int vert_attr, int col_attr, int uv_attr)
 	{
-
 		if (vertFlag() == 0)	// if vertex buffer does not exists
 			return;				// drawing is impossible
 
@@ -121,29 +120,25 @@ namespace sgl
 		}
 
 		// activate attributes and drawing
-		vertb->activate(vert_attr);
+		Activator<VertexBuffer2f> vert_act;
+		Activator<ColorBuffer3f> col3_act;
+		Activator<ColorBuffer4f> col4_act;
+		Activator<UVBuffer> uv_act;
+
+		vert_act.activate(*vertb, vert_attr);
+
 		if (colb.f3)
 		{
-			if (is_col3b) colb.f3->activate(col_attr);
-			else colb.f4->activate(col_attr);
+			if (is_col3b) col3_act.activate(*colb.f3, col_attr);
+			else col4_act.activate(*colb.f4, col_attr);
 		}
 		if (uvb)
-			uvb->activate(uv_attr);
-		// end of activation
+			uv_act.activate(*uvb, uv_attr);
 		
+		// begin of drawing
 		if (indb)
 			indb->drawIndexes(mode);
 		else
 			vertb->drawArrays(mode);
-
-		// begin of deactivation
-		if (uvb)
-			uvb->deactivate(uv_attr);
-		if (colb.f3)
-		{
-			if (is_col3b) colb.f3->deactivate(col_attr); 
-			else colb.f4->deactivate(col_attr); 
-		}
-		vertb->deactivate(vert_attr);
 	}
 }
