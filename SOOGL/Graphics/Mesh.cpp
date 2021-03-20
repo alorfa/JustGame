@@ -103,7 +103,7 @@ namespace sgl
 
 		// compute matrix
 		mat3 out;
-		mat3::multiply(cumera.matrix(), matrix(), out);
+		mat3::createMatrix(cumera, *this, out);
 
 		// set uniforms
 		shader->activate();

@@ -1,6 +1,6 @@
 #include "SOOGL/Math/mat3.hpp"
 #include <iostream>
-#include "SOOGL/Graphics/Transform/Transformable2D.hpp"
+#include "SOOGL/Graphics/Transform/Camera2DBase.hpp"
 
 namespace sgl
 {
@@ -29,7 +29,8 @@ namespace sgl
 		return *this;
 	}
 
-	void mat3::set(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33)
+	void mat3::set(float m11, float m12, float m13, float m21, float m22, float m23,
+		float m31, float m32, float m33)
 	{
 		mat[0] = m11;
 		mat[1] = m12;
@@ -116,5 +117,25 @@ namespace sgl
 			a * cosine, -b * sine,	0.f,
 			a * sine,	b * cosine, 0.f,
 			-a * tx,	-b * ty,	1.f);
+	}
+	void mat3::createMatrix(const Transform2D& camera, 
+		const Transform2D& object, mat3& output)
+	{
+		Transform2D t;
+
+		t.scale.x = object.scale.x * 2.f / camera.scale.x;
+		t.scale.y = object.scale.y * 2.f / camera.scale.y;
+
+		t.position.x = (object.position.x - camera.position.x) * 2.f;
+		t.position.y = (object.position.y - camera.position.y) * 2.f;
+
+		t.rotation = object.rotation - camera.rotation;
+
+		mat3::createTransformMatrix(t, output);
+	}
+	void mat3::createMatrix(const Camera2DBase& camera, 
+		const Transformable2D& object, mat3& output)
+	{
+		createMatrix(camera.transform(), object.transform(), output);
 	}
 }

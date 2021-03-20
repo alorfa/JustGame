@@ -14,6 +14,7 @@
 *.png
 
 Game/main.cpp
+*.hint
 
 # dont works classes
 SOOGL/Render/RenderBuffer.*

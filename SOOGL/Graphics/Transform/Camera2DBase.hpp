@@ -1,12 +1,12 @@
 #pragma once
 
-#include "SOOGL/Math/mat3.hpp"
+#include "Transformable2D.hpp"
 
 namespace sgl
 {
-	class Camera2DBase
+	class Camera2DBase : public Transformable2D
 	{
 	public:
-		virtual const mat3& matrix() const = 0;
+		virtual const Transform2D& transform() const = 0;
 	};
 }
