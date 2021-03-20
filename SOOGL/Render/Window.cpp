@@ -2,8 +2,8 @@
 #include "SOOGL/Other/opengl.h"
 #include <SFML/Window/Window.hpp>
 #include <SFML/Window/Event.hpp>
-#include "SOOGL/System/User/Keyboard.hpp"
-#include "SOOGL/System/User/Mouse.hpp"
+#include "SOOGL/System/User.hpp"
+#include "SOOGL/System/User.hpp"
 
 namespace sgl
 {
@@ -42,14 +42,17 @@ namespace sgl
 			return false;
 
 		window->create(sf::VideoMode(size.x, size.y), title, sf::Style::Default);
-		RenderTarget::viewport(size);
-		RenderTarget::default_framebuf_size = size;
 
 		glewExperimental = true;
 		if (glewInit() != GLEW_OK) {
 			window->close();
 			return false;
 		}
+
+		RenderTarget::viewport(size);
+		RenderTarget::default_framebuf_size = size;
+
+		frameLimit(60);
 
 		windows_count++;
 		return true;
@@ -107,11 +110,11 @@ namespace sgl
 		return wnd_title;
 	}
 	
-	uint Window::frameLinit() const
+	uint Window::frameLimit() const
 	{
 		return frame_limit;
 	}
-	uint Window::frameLinit(uint limit)
+	uint Window::frameLimit(uint limit)
 	{
 		frame_limit = limit;
 		window->setFramerateLimit(limit);

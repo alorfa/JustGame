@@ -40,8 +40,8 @@ namespace sgl
 		const std::string& title() const;
 		const std::string& title(const std::string& utf8string);
 
-		uint frameLinit() const; 
-		uint frameLinit(uint limit); 
+		uint frameLimit() const;
+		uint frameLimit(uint limit);
 
 		bool verticalSync() const;
 		bool verticalSync(bool enable);

@@ -16,7 +16,7 @@ namespace sgl::tests
 		Window window;
 		if (not window.create({ 800, 800 }, "title"))
 			return;
-		window.frameLinit(60);
+		window.frameLimit(60);
 
 		VertexBuffer2f vb;
 		UVBuffer uvb;
@@ -64,14 +64,14 @@ namespace sgl::tests
 		m1.texture(&t1);
 		//m1.color(&color);
 		m1.indexBuffer(&ib);
-		m1.position(-0.5f, -0.5f);
+		m1.position = fvec2(-0.5f, -0.5f);
 		m1.reverse_uv = true;
 
 		m2.vertexBuffer(&vb);
 		m2.uvBuffer(&uvb);
 		m2.texture(&t2);
-		m2.position(-0.4f, -0.4f);
-		m2.scope(0.8f, 0.8f);
+		m2.position = {-0.4f, -0.4f};
+		m2.scale = {0.8f, 0.8f};
 		//m2.position(-0.5f, -0.5f);
 
 		Clock clock;
@@ -88,9 +88,9 @@ namespace sgl::tests
 			float delta = (float)clock.update();
 
 			if (Keyboard::isPressed(Key::Left))
-				m2.move(-0.5f * delta, 0);
+				m2.position.x -= 0.5f * delta;
 			if (Keyboard::isPressed(Key::Right))
-				m2.move(0.5f * delta, 0);
+				m2.position.x += 0.5f * delta;
 
 			fbuf.activate(); 
 			{

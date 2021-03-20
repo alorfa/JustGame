@@ -23,3 +23,10 @@ std::ostream& operator<<(std::ostream& out, const sgl::vec4<T>& vec)
 	out << '[' << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << "]";
 	return out;
 }
+
+std::ostream& operator<<(std::ostream& out, const sgl::Transform2D& t)
+{
+	out << t.position << ", " << t.rotation << ", " << t.scale;
+
+	return out;
+}

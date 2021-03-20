@@ -20,9 +20,7 @@
 #include "SOOGL/System/User/Mouse.hpp"
 #include "SOOGL/Other/print_primitives.hpp"
 
-#include "SOOGL/RenderTarget/Window.hpp"
-#include "SOOGL/RenderTarget/FrameBuffer.hpp"
-#include "SOOGL/RenderTarget/RenderBuffer.hpp"
+#include "SOOGL/Render.hpp"
 
 #include "SOOGL/Tests/Rectangle.hpp"
 #include "SOOGL/Tests/Sprite.hpp"
@@ -74,7 +72,7 @@ namespace sgl::tests
 			exit(-1);
 		}
 
-		window.frameLinit(60);
+		window.frameLimit(60);
 
 		Camera2D camera;
 		camera.move(0.5f, 0.5f);
